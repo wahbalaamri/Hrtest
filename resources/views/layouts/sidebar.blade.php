@@ -31,6 +31,11 @@
             'url' => route('clients.index'),
             'active' => ['clients','clients.index'],
         ],
+        'Users' => [
+            'icon' => 'fa fa-file-users',
+            'url' => route('users.index'),
+            'active' => ['users','users.index'],
+        ],
         // 'Surveys' => [
         //     'icon' => 'fa fa-list',
         //     'url' => route('surveys.index'),
@@ -61,7 +66,9 @@
 @endphp
 
     {{-- create sidebar menu --}}
-    <ul class="list-group" data-widget="tree">
+    <ul class="list-group" data-widget="tree" style="margin-top: 0.5% ; margin-bottom: 0.2%;
+    position: fixed;
+    z-index: 0;">
         <li class="header list-group-item text-center">MAIN NAVIGATION</li>
         @foreach ($menu as $key => $value)
             <li class="list-group-item text-start {{ Request::is($value['active']) ? 'active btn btn-primary text-white' : 'btn btn-secondary' }}">

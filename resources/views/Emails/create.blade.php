@@ -187,9 +187,11 @@
                                         class="form-control @error('SurveyIdC') is-invalid @enderror">
                                         <option value="">Select Survey</option>
                                         @foreach ($surveys as $survey)
+                                        @if($survey->id!=$surveyId)
                                         <option value="{{ $survey->id }}" @if (old('SurveyIdC')==$survey->id) selected
                                             @endif>
                                             {{ $survey->SurveyTitle }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                     {{-- validation --}}
@@ -251,8 +253,9 @@
 <script>
     //CopyFrom from submit
     $('#CopyFrom').submit(function(){
-        $("#NewSurveyId").attr('disabled', false);
-        $("#ClientId").attr('disabled', false);
+        $("#SurveyIdC").attr('disabled', false);
+        $("#NewSurveyIdC").attr('disabled', false);
+        $("#ClientIdC").attr('disabled', false);
     })
     //oneByone form submit
     $('#oneByone').submit(function(){

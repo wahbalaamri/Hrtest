@@ -23,21 +23,21 @@
                             <h2 class="accordion-header" id="heading{{ $loop->iteration }}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapse{{ $loop->iteration }}" aria-expanded="{{ $loop->iteration==1?'true':'false' }}" aria-controls="collapse{{ $loop->iteration }}">
-                                    Plan {{ $loop->iteration }}
+                                    {{ $partnerShipPlan->PlanTitle }}
                                 </button>
                             </h2>
                             <div id="collapse{{ $loop->iteration }}" class="accordion-collapse collapse {{ $loop->iteration==1?'show':'' }}" aria-labelledby="heading{{ $loop->iteration }}"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="list-group w-50">
-                                        <div class="list-group-item" style="display: flex;
+                                       {{--  <div class="list-group-item" style="display: flex;
                                         align-items: center;
                                         justify-content: center;
                                         height: 5rem;color: #eead35">
                                             <div class="h3">
                                                 {{ $partnerShipPlan->PlanTitle }}
                                             </div>
-                                        </div>
+                                        </div>--}}
                                         <div class="list-group-item" style="background-color: #fff; color:#eead35">
                                             <span class="font-weight-bold float-start">{{ __('Objective') }}</span>
                                             <span class="float-end">{!! $partnerShipPlan->Objective !!}</span>

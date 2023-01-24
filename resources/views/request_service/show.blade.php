@@ -33,11 +33,11 @@
                                 </span>
                             </li>
 
-                            <li class="list-group-item">
+                            {{-- <li class="list-group-item">
                                 <span class="font-weight-bold float-start">{{ __('Company Email') }}</span>
                                 <span class="float-end">{{ $request->company_email }}
                                 </span>
-                            </li>
+                            </li> --}}
                             <li class="list-group-item">
                                 <span class="font-weight-bold float-start">{{ __('Company Phone') }}</span>
                                 <span class="float-end">{{ $request->company_phone }}
@@ -58,11 +58,20 @@
                                 <span class="float-end">{{ $request->fp_email }}
                                 </span>
                             </li>
-                            <li class="list-group-item">
+                            {{-- <li class="list-group-item">
                                 <span class="font-weight-bold float-start">{{ __('Focal Point Phone') }}</span>
                                 <span class="float-end">{{ $request->fp_phone }}
                                 </span>
+                            </li> --}}
+                            @if (count($clients)<=0)
+                            <li class="list-group-item">
+                                {{-- add this client --}}
+                                <a href="{{ route('request-service.add_client', $request->id) }}"
+                                    class="btn btn-primary btn-block">
+                                    {{ __('Add Client') }}
+                                </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

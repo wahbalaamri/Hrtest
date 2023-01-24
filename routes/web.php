@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,11 @@ Route::post('/practice-questions/SaveNewQuestion/{id}', [App\Http\Controllers\Pr
 // save remote data
 Route::post('/practice-questions/save/{id}', [App\Http\Controllers\PracticeQuestionsController::class, 'saveQuestions'])->name('practice-questions.save')->middleware('auth');
 
+Route::get('/clients/getClients/{id}', [App\Http\Controllers\ClientsController::class,'getClients'])->name('clients.getClients')->middleware('auth');
 Route::resource('clients', App\Http\Controllers\ClientsController::class)->middleware('auth');
+Route::get('users/changePassword/{id}', [UsersController::class,'changePassword'])->name('users.changePassword')->middleware('auth');
+Route::post('users/storeNewPass/{id}', [UsersController::class,'storeNewPass'])->name('users.storeNewPass')->middleware('auth');
+Route::resource('users', App\Http\Controllers\UsersController::class)->middleware('auth');
 
 Route::get('/emails/send-survey/{Surveyid}/{Clientid}', [App\Http\Controllers\EmailsController::class, 'sendSurveyw'])->name('emails.Ssurvey')->middleware('auth');
 Route::get('/emails/send-reminder/{Surveyid}/{Clientid}', [App\Http\Controllers\EmailsController::class, 'sendReminder'])->name('emails.send-reminder')->middleware('auth');
@@ -93,6 +98,7 @@ Route::get('/service-request', [App\Http\Controllers\RequestServiceController::c
 Route::get('/service-request/{id}', [App\Http\Controllers\RequestServiceController::class,'show'])->middleware('auth')->name('service-request.show');
 Route::post('/service-request/store', [App\Http\Controllers\RequestServiceController::class,'store'])->name('service-request.store');
 Route::get('/service-request/create', [App\Http\Controllers\RequestServiceController::class,'create'])->name('service-request.create');
+Route::get('/service-request/add_client/{id}', [App\Http\Controllers\RequestServiceController::class,'addClient'])->name('request-service.add_client')->middleware('auth');
 Route::get('/testing/migrate', function () {
     Artisan::call('migrate:fresh');
     $dd_output = Artisan::output();

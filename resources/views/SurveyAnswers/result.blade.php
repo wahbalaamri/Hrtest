@@ -672,6 +672,7 @@
     align-content: center;
     flex-direction: column;
     text-align: center;">
+
                     <span>Key improvement areas by practices
                     </span>
                 </div>
@@ -694,6 +695,12 @@
                 </div>
                 @endforeach
             </div>
+        </div>
+        <div class="card-footer">
+            <span class="legend-result"><b>Legend:</b></span> <span class="legend-levels"><b> Leadership:</b></span>
+            <img src="{{ asset('assets/img/icon/LeadersIcon.png') }}" height="20" width="25" alt=""> – <span class="legend-levels"><b>HR Team:</b></span> <img src="{{ asset('assets/img/icon/HRIcon.png') }}" height="20" width="25" alt=""> – <span
+                    class="legend-levels"><b>Employee:</b></span> <img src="{{ asset('assets/img/icon/EmployeIcon.png') }}" height="20" width="25" alt="">
+
         </div>
     </div>
     <button id="heatmapDownload" class="btn btn-success mt-1" style="border-radius: 10px;
@@ -723,7 +730,7 @@
     const ctx = document.getElementById('myChart');
 
 const myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: Labels,
         datasets: [
@@ -731,20 +738,20 @@ const myChart = new Chart(ctx, {
             label: 'Leadership responses',
             data: Leaders,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 99, 132, 0.2)'//,
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
+                // 'rgba(153, 102, 255, 0.2)',
+                // 'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 99, 132, 1)'//,
+                // 'rgba(54, 162, 235, 1)',
+                // 'rgba(255, 206, 86, 1)',
+                // 'rgba(75, 192, 192, 1)',
+                // 'rgba(153, 102, 255, 1)',
+                // 'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1
         },
@@ -752,19 +759,19 @@ const myChart = new Chart(ctx, {
             label: 'HR responses',
             data: hr,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
+                // 'rgba(255, 99, 132, 0.2)',
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
+                // 'rgba(153, 102, 255, 0.2)',
                 'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
+                // 'rgba(255, 99, 132, 1)',
+                // 'rgba(54, 162, 235, 1)',
+                // 'rgba(255, 206, 86, 1)',
+                // 'rgba(75, 192, 192, 1)',
+                // 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1

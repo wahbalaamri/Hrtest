@@ -158,9 +158,11 @@ class EmailsController extends Controller
     }
     public function copy(Request $request)
     {
-        $ClientID = $request->get('ClientId');
-        $SurveyID = $request->get('SurveyId');
-        $newSurveyID = $request->get('NewSurveyId');
+        $ClientID = $request->get('ClientIdC');
+        $SurveyID = $request->get('SurveyIdC');
+        $newSurveyID = $request->get('NewSurveyIdC');
+        // dd($request->all());
+        // dd('newSurveyID: '.$newSurveyID .' SurveyID: '.$SurveyID.' ClientID: '.$ClientID );
         $emails = Emails::where([['ClientId', '=', $ClientID], ['SurveyId', '=', $SurveyID]])->get();
         if ($SurveyID == $newSurveyID) {
             return redirect()->route('emails.create')->withErrors('Please Select Different Survey');
@@ -325,7 +327,7 @@ class EmailsController extends Controller
     {
         $data = [
             'clients' => \App\Models\Clients::all(),
-            'surveys' => \App\Models\Surveys::all(),
+            'surveys' => \App\Models\Surveys::where('ClientId','=',$ClientID)->get(),
             'surveyId' => $SurveyID,
             'clientId' => $ClientID,
         ];

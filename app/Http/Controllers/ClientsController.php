@@ -7,6 +7,7 @@ use App\Http\Requests\ClientUpdateRequest;
 use App\Models\Clients;
 use App\Models\Surveys;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClientsController extends Controller
 {
@@ -48,55 +49,8 @@ class ClientsController extends Controller
      */
     public function show(Request $request, Clients $client)
     {
-        if ($request->ajax()) {
-            //Datatable
-            return Datatables()->of(Surveys::where('ClientId', $client->id)->get())
-                ->addIndexColumn()
-                ->addColumn('survey_result', function ($row) {
-                    $url = route('survey-answers.result', $row->id);
-                    return '<a href="' . $url . '" class="btn btn-success btn-sm">View Result</a>';
-                })
-                ->addColumn('respondents',function($row){
+        Log::alert($request->ajax());
 
-                    return '<a  data-bs-toggle="modal" href="#RespondentEmails" onclick="GetRespondentsEmails(\''.$row->id.'\')" class="btn btn-success btn-sm">View Respondents</a>';
-                })
-                ->addColumn('send_survey', function ($row) {
-                    // $url = route('emails.Ssurvey', $row->id,$row->ClientId);
-                    return '<a href="/emails/send-survey/'.$row->id.'/'.$row->ClientId.'" class="btn btn-success btn-sm">Send Survey</a>';
-                })
-                ->addColumn('send_reminder', function ($row) {
-                    $url = route('survey-answers.result', $row->id);
-                    return '<a href="/emails/send-reminder/'.$row->id.'/'.$row->ClientId.'" class="btn btn-success btn-sm">Send Reminder</a>';
-                })
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('surveys.show', $row->id) . '" class="edit btn btn-primary btn-sm m-1"><i class="fa fa-eye"></i></a>';
-                    $btn .= '<a href="' . route('surveys.edit', $row->id) . '" class="edit btn btn-primary btn-sm m-1"><i class="fa fa-edit"></i></a>';
-                    $btn .= '<form action="' . route('surveys.destroy', $row->id) . '" method="POST" class="delete_form" style="display:inline">';
-                    $btn .= '<input type="hidden" name="_method" value="DELETE">';
-                    $btn .= csrf_field();
-                    $btn .= '<button type="submit" class="btn btn-danger btn-sm m-1"><i class="fa fa-trash"></i></button>';
-                    $btn .= '</form>';
-                    return $btn;
-                })
-                ->editColumn('created_at', function ($row) {
-                    //format date with dd-mm-yyyy
-                    return $row->created_at->format('d-m-Y');
-                })
-                ->editColumn('PlanId', function ($row) {
-                    return $row->plan->PlanTitle;
-                })
-                ->editColumn('SurveyStat', function ($row) {
-                    $isChecked = $row->SurveyStat ? "checked" : "";
-                    $lable = $row->SurveyStat ? "Active" : "In-Active";
-                    $check = '<div class="form-check form-switch">';
-                    $check .= '<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked'.$row->id.'" ' . $isChecked . ' onchange="ChangeCheck(this,\'' . $row->id . '\')" >';
-                    $check .= '<label class="form-check-label" for="flexSwitchCheckChecked'.$row->id.'">' . $lable . '</label></div>';
-                    return $check;
-                })
-                ->rawColumns(['action', 'survey_result', 'SurveyStat','send_reminder','send_survey','respondents'])
-                ->addIndexColumn()
-                ->make(true);
-        }
         return view('Clients.show', compact('client'));
     }
 
@@ -132,5 +86,58 @@ class ClientsController extends Controller
         $client->delete();
 
         return redirect()->route('clients.index');
+    }
+    public function getClients($id)
+    {
+
+            Log::info($id);
+            //Datatable
+            return Datatables()->of(Surveys::where('ClientId', $id)->get())
+                ->addIndexColumn()
+                ->addColumn('survey_result', function ($row) {
+                    $url = route('survey-answers.result', $row->id);
+                    return '<a href="' . $url . '" class="btn btn-success btn-sm">View Result</a>';
+                })
+                ->addColumn('respondents', function ($row) {
+
+                    return '<a  data-bs-toggle="modal" href="#RespondentEmails" onclick="GetRespondentsEmails(\'' . $row->id . '\')" class="btn btn-success btn-sm">View Respondents</a>';
+                })
+                ->addColumn('send_survey', function ($row) {
+                    // $url = route('emails.Ssurvey', $row->id,$row->ClientId);
+                    return '<a href="/emails/send-survey/' . $row->id . '/' . $row->ClientId . '" class="btn btn-success btn-sm">Send Survey</a>';
+                })
+                ->addColumn('send_reminder', function ($row) {
+                    $url = route('survey-answers.result', $row->id);
+                    return '<a href="/emails/send-reminder/' . $row->id . '/' . $row->ClientId . '" class="btn btn-success btn-sm">Send Reminder</a>';
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('surveys.show', $row->id) . '" class="edit btn btn-primary btn-sm m-1"><i class="fa fa-eye"></i></a>';
+                    $btn .= '<a href="' . route('surveys.edit', $row->id) . '" class="edit btn btn-primary btn-sm m-1"><i class="fa fa-edit"></i></a>';
+                    $btn .= '<form action="' . route('surveys.destroy', $row->id) . '" method="POST" class="delete_form" style="display:inline">';
+                    $btn .= '<input type="hidden" name="_method" value="DELETE">';
+                    $btn .= csrf_field();
+                    $btn .= '<button type="submit" class="btn btn-danger btn-sm m-1"><i class="fa fa-trash"></i></button>';
+                    $btn .= '</form>';
+                    return $btn;
+                })
+                ->editColumn('created_at', function ($row) {
+                    //format date with dd-mm-yyyy
+                    return $row->created_at->format('d-m-Y');
+                })
+                ->editColumn('PlanId', function ($row) {
+                    return $row->plan->PlanTitle;
+                })
+                ->editColumn('SurveyStat', function ($row) {
+                    $isChecked = $row->SurveyStat ? "checked" : "";
+                    $lable = $row->SurveyStat ? "Active" : "In-Active";
+                    $check = '<div class="form-check form-switch">';
+                    $check .= '<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked' . $row->id . '" ' . $isChecked . ' onchange="ChangeCheck(this,\'' . $row->id . '\')" >';
+                    $check .= '<label class="form-check-label" for="flexSwitchCheckChecked' . $row->id . '">' . $lable . '</label></div>';
+                    return $check;
+                })
+                ->rawColumns(['action', 'survey_result', 'SurveyStat', 'send_reminder', 'send_survey', 'respondents'])
+                ->addIndexColumn()
+                ->make(true);
+
     }
 }

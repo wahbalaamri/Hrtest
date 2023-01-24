@@ -125,7 +125,13 @@
                             <div class="col-6"></div>
                             {{-- login or logout --}}
                             @if (Auth::check())
-                            <div class="col-6">
+                            <div class="col-3">
+                                <a href="{{ route('users.changePassword',auth()->user()->id) }}" class="text-white text-decoration-none" >
+                                <i class="fas fa-key"></i>
+                                {{ __('Change Password') }}
+                            </a>
+                            </div>
+                            <div class="col-3 text-start">
                                 <a href="{{ route('logout') }}" class="text-white text-decoration-none" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt"></i>
@@ -184,7 +190,7 @@
                                 <li><a href="/">Home</a></li>
                                 @if (Auth()->check())
 
-                                @if (Auth()->user()->user_type == 'admin')
+                                @if (Auth()->user()->user_type == 'admin' ||Auth()->user()->user_type == 'superadmin')
                                 <li><a href="{{ route('partner-ship-plans.index') }}">Control Panel</a> </li>
                                 @endif
                                 @endif
@@ -232,8 +238,8 @@
 
     @yield('content')
 
-    <footer class="background-footer" dir="ltr">
-        <div class="container mt-2 pt-3 pb-2">
+    <footer class="background-footer mt-1" dir="ltr" style="">
+        <div class="container mt-1 pt-1 pb-1">
             <div class="row">
                 <div class="col-8 col-lg-10 col-md-10 wow fadeInUp">
                     <div class="row">

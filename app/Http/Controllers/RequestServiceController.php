@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RequestService;
 use App\Http\Requests\StoreRequestServiceRequest;
 use App\Http\Requests\UpdateRequestServiceRequest;
+use App\Models\Clients;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,8 @@ class RequestServiceController extends Controller
      */
     public function index()
     {
-        $requests=RequestService::all();
-        return view('request_service.index',compact('requests'));
+        $requests = RequestService::all();
+        return view('request_service.index', compact('requests'));
         //
     }
 
@@ -39,7 +40,7 @@ class RequestServiceController extends Controller
      * @param  \App\Http\Requests\StoreRequestServiceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( StoreRequestServiceRequest $request , RequestService $res)
+    public function store(StoreRequestServiceRequest $request, RequestService $res)
     {
         //autherize guest user
         // $user->store(RequestService::create($request->validate()));
@@ -54,11 +55,11 @@ class RequestServiceController extends Controller
      * @param  \App\Models\RequestService  $requestService
      * @return \Illuminate\Http\Response
      */
-    public function show(RequestService $requestService , $id)
+    public function show(RequestService $requestService, $id)
     {
-        $request=RequestService::find($id);
-
-        return view('request_service.show', compact('request'));
+        $request = RequestService::find($id);
+        $clients = Clients::where('CilentFPEmil', $request->fp_email)->get();
+        return view('request_service.show', compact('request', 'clients'));
     }
 
     /**
@@ -93,5 +94,17 @@ class RequestServiceController extends Controller
     public function destroy(RequestService $requestService)
     {
         //
+    }
+    public function addClient(RequestService $requestService, $id)
+    {
+        $request = RequestService::find($id);
+        $client = new Clients();
+        $client->ClientName = $request->company_name;
+        $client->ClientPhone = $request->company_phone;
+        $client->CilentFPName = $request->fp_name;
+        $client->CilentFPEmil = $request->fp_email;
+        $client->save();
+        return redirect()->route('service-request.show', $id)->with('success', 'Client Added Successfully');
+
     }
 }

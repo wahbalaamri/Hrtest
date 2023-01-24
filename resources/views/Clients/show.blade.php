@@ -50,6 +50,7 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <th scope="">#</th>
                                             <th scope="">Survey Name</th>
                                             <th scope="">Plan</th>
                                             <th scope="">Survey Status</th>
@@ -106,12 +107,18 @@
 @section('scripts')
 <script>
     $(function() {
+
     //surveys-data-table
     $('#surveys-data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('clients.show',$client->id) }}",
-        columns: [{
+        ajax: "{{ route('clients.getClients',$client->id) }}",
+        columns: [
+            {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+        {
                 data: 'SurveyTitle',
                 name: 'SurveyTitle'
             },
